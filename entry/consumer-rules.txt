@@ -1,0 +1,33 @@
+# Consumer ProGuard Rules for HarmonyOS NEXT Minecraft Launcher
+# These rules will be applied to consumers of this library
+
+# Keep all public APIs
+-keep public class com.mclaunch.launcher.MinecraftLauncher {
+    public <methods>;
+}
+
+-keep public class com.mclaunch.launcher.VersionManifest {
+    public <methods>;
+}
+
+-keep public class com.mclaunch.launcher.AssetManager {
+    public <methods>;
+}
+
+-keep public class com.mclaunch.launcher.ProfileManager {
+    public <methods>;
+}
+
+-keep public class com.mclaunch.launcher.LauncherConfig {
+    public <methods>;
+}
+
+# Keep launcher configuration interface
+-keep interface com.mclaunch.launcher.** { *; }
+
+# Keep exception classes for proper error handling
+-keep class com.mclaunch.launcher.**Exception { *; }
+
+# Keep callback interfaces
+-keep interface com.mclaunch.launcher.**Callback { *; }
+-keep interface com.mclaunch.launcher.**Listener { *; }

@@ -1,0 +1,27 @@
+{
+  "name": "harmonyos-minecraft-launcher-entry",
+  "version": "1.0.0",
+  "description": "HarmonyOS NEXT Minecraft Launcher Entry Module",
+  "main": "index.js",
+  "scripts": {
+    "build": "hvigorw assembleHap",
+    "clean": "hvigorw clean",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "harmonyos",
+    "minecraft",
+    "launcher",
+    "gaming",
+    "arkts"
+  ],
+  "author": "HarmonyOS Minecraft Launcher Team",
+  "license": "MIT",
+  "devDependencies": {},
+  "dependencies": {},
+  "harmonyos": {
+    "compileSdkVersion": "4.1.0(11)",
+    "compatibleSdkVersion": "4.1.0(11)",
+    "moduleType": "entry"
+  }
+}
