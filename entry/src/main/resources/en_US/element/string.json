@@ -1,0 +1,16 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "HarmonyOS Minecraft Launcher inspired by PojavLauncher"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "Main entry point for the Minecraft launcher"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "MC Launcher"
+    }
+  ]
+}
