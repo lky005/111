@@ -1,0 +1,53 @@
+# HarmonyOS NEXT Minecraft Launcher Obfuscation Rules
+
+# Keep launcher classes
+-keep class com.mclaunch.launcher.** { *; }
+
+# Keep Minecraft-related classes
+-keep class * extends java.lang.Exception
+
+# Keep native method signatures
+-keepclasseswithmembers class * {
+    native <methods>;
+}
+
+# Keep enum classes
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+
+# Keep logging for debugging
+-keep class java.util.logging.** { *; }
+
+# Keep reflection-used classes
+-keepattributes Signature
+-keepattributes *Annotation*
+-keepattributes InnerClasses
+-keepattributes EnclosingMethod
+
+# Keep version information
+-keepclassmembers class com.mclaunch.launcher.VersionManifest$VersionInfo {
+    private <fields>;
+    public <methods>;
+}
+
+# Keep configuration classes
+-keepclassmembers class * {
+    @com.mclaunch.launcher.Config *;
+}
+
+# Performance optimizations
+-optimizations !code/simplification/arithmetic,!field/*,!class/merging/*
+-optimizationpasses 5
+-allowaccessmodification
+
+# Remove debug information in release builds
+-assumenosideeffects class android.util.Log {
+    public static boolean isLoggable(java.lang.String, int);
+    public static int v(...);
+    public static int i(...);
+    public static int w(...);
+    public static int d(...);
+    public static int e(...);
+}

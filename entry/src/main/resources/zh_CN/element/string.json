@@ -11,6 +11,66 @@
     {
       "name": "EntryAbility_label",
       "value": "MC启动器"
+    },
+    {
+      "name": "internet_permission_reason",
+      "value": "访问网络以下载Minecraft版本和资源文件"
+    },
+    {
+      "name": "storage_permission_reason",
+      "value": "存储Minecraft游戏文件和用户数据"
+    },
+    {
+      "name": "file_access_permission_reason",
+      "value": "管理Minecraft安装文件和游戏存档"
+    },
+    {
+      "name": "launch_game",
+      "value": "启动游戏"
+    },
+    {
+      "name": "settings",
+      "value": "设置"
+    },
+    {
+      "name": "select_version",
+      "value": "选择版本"
+    },
+    {
+      "name": "change",
+      "value": "更改"
+    },
+    {
+      "name": "profiles",
+      "value": "配置文件"
+    },
+    {
+      "name": "mods",
+      "value": "模组"
+    },
+    {
+      "name": "status_ready",
+      "value": "状态：就绪"
+    },
+    {
+      "name": "launching_minecraft",
+      "value": "正在启动Minecraft..."
+    },
+    {
+      "name": "minecraft_launcher",
+      "value": "Minecraft启动器"
+    },
+    {
+      "name": "back",
+      "value": "返回"
+    },
+    {
+      "name": "save",
+      "value": "保存"
+    },
+    {
+      "name": "refresh",
+      "value": "刷新"
     }
   ]
 }
