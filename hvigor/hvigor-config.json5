@@ -1,16 +1,35 @@
 {
   "modelVersion": "5.0.0",
-  "description": "HarmonyOS Minecraft Launcher build configuration",
+  "description": "HarmonyOS NEXT Minecraft Launcher build configuration",
   "ohos": {
     "compileSdkVersion": "4.1.0(11)",
     "compatibleSdkVersion": "4.1.0(11)",
-    "supportedDeviceTypes": ["phone", "tablet"]
+    "runtimeOS": "HarmonyOS",
+    "supportedDeviceTypes": ["phone", "tablet", "2in1"]
+  },
+  "app": {
+    "signingConfigs": [],
+    "products": [
+      {
+        "name": "default",
+        "signingConfig": "default"
+      }
+    ]
   },
   "build": {
     "artifactType": "hap",
     "compile": {
       "sourceCompatibility": "17",
       "targetCompatibility": "17"
+    },
+    "arkOptions": {
+      "obfuscation": {
+        "ruleOptions": {
+          "enable": true,
+          "files": ["obfuscation-rules.txt"]
+        },
+        "consumerFiles": ["consumer-rules.txt"]
+      }
     }
   },
   "dependencies": {

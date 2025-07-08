@@ -11,6 +11,66 @@
     {
       "name": "EntryAbility_label",
       "value": "MC Launcher"
+    },
+    {
+      "name": "internet_permission_reason",
+      "value": "Access internet to download Minecraft versions and assets"
+    },
+    {
+      "name": "storage_permission_reason",
+      "value": "Store Minecraft game files and user data"
+    },
+    {
+      "name": "file_access_permission_reason",
+      "value": "Manage Minecraft installation files and game saves"
+    },
+    {
+      "name": "launch_game",
+      "value": "Launch Game"
+    },
+    {
+      "name": "settings",
+      "value": "Settings"
+    },
+    {
+      "name": "select_version",
+      "value": "Select Version"
+    },
+    {
+      "name": "change",
+      "value": "Change"
+    },
+    {
+      "name": "profiles",
+      "value": "Profiles"
+    },
+    {
+      "name": "mods",
+      "value": "Mods"
+    },
+    {
+      "name": "status_ready",
+      "value": "Status: Ready"
+    },
+    {
+      "name": "launching_minecraft",
+      "value": "Launching Minecraft..."
+    },
+    {
+      "name": "minecraft_launcher",
+      "value": "Minecraft Launcher"
+    },
+    {
+      "name": "back",
+      "value": "Back"
+    },
+    {
+      "name": "save",
+      "value": "Save"
+    },
+    {
+      "name": "refresh",
+      "value": "Refresh"
     }
   ]
 }
