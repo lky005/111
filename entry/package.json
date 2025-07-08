@@ -1,7 +1,7 @@
 {
   "name": "harmonyos-minecraft-launcher-entry",
   "version": "1.0.0",
-  "description": "HarmonyOS NEXT Minecraft Launcher Entry Module",
+  "description": "HarmonyOS 5.0 Minecraft Launcher Entry Module - API 17 (5.0.1.120)",
   "main": "index.js",
   "scripts": {
     "build": "hvigorw assembleHap",
@@ -20,8 +20,8 @@
   "devDependencies": {},
   "dependencies": {},
   "harmonyos": {
-    "compileSdkVersion": "4.1.0(11)",
-    "compatibleSdkVersion": "4.1.0(11)",
+    "compileSdkVersion": "5.0.1(120)",
+    "compatibleSdkVersion": "5.0.1(120)",
     "moduleType": "entry"
   }
 }

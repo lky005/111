@@ -12,6 +12,7 @@
     "deliveryWithInstall": true,
     "installationFree": false,
     "pages": "$profile:main_pages",
+    "targetAPIVersion": 17,
     "abilities": [
       {
         "name": "EntryAbility",

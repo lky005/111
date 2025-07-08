@@ -3,7 +3,7 @@
   "devDependencies": {},
   "author": "",
   "name": "harmonyos-minecraft-launcher",
-  "description": "A Minecraft Java Edition launcher for HarmonyOS NEXT inspired by PojavLauncher",
+  "description": "A Minecraft Java Edition launcher for HarmonyOS 5.0+ (API 17) inspired by PojavLauncher",
   "main": "",
   "version": "1.0.0",
   "dependencies": {}
