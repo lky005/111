@@ -1,0 +1,12 @@
+{
+  "name": "pojavlauncher-harmonyos",
+  "version": "1.0.0",
+  "description": "PojavLauncher adaptation for HarmonyOS Next",
+  "main": "index.ets",
+  "author": "PojavLauncher Team",
+  "license": "GPL-3.0",
+  "dependencies": {},
+  "devDependencies": {
+    "@ohos/hypium": "1.0.6"
+  }
+}

@@ -1,0 +1,48 @@
+# HarmonyOS Next build outputs
+.preview
+node_modules/
+oh_modules/
+.hvigor/
+build/
+**/build/
+entry/.preview
+entry/build
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+/tmp/
+
+# Archive files
+*.hap
+*.app
+
+# Native libraries
+*.so
+*.a
+
+# Java
+*.class
+*.jar
+*.war
+*.ear
+
+# Minecraft files (for testing)
+minecraft/
+versions/
+assets/
+libraries/
+natives/

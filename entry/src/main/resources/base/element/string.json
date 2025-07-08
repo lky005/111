@@ -1,0 +1,44 @@
+{
+  "string": [
+    {
+      "name": "app_name",
+      "value": "PojavLauncher"
+    },
+    {
+      "name": "module_desc",
+      "value": "PojavLauncher for HarmonyOS Next"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "Main entry point for PojavLauncher"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "PojavLauncher"
+    },
+    {
+      "name": "permission_internet",
+      "value": "Required for downloading Minecraft files and mods"
+    },
+    {
+      "name": "permission_storage",
+      "value": "Required for storing Minecraft files and game data"
+    },
+    {
+      "name": "launch_minecraft",
+      "value": "Launch Minecraft"
+    },
+    {
+      "name": "settings",
+      "value": "Settings"
+    },
+    {
+      "name": "version_select",
+      "value": "Select Version"
+    },
+    {
+      "name": "download_progress",
+      "value": "Downloading..."
+    }
+  ]
+}
