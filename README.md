@@ -1,21 +1,21 @@
-# HarmonyOS NEXT Minecraft Launcher
+# HarmonyOS 5.0 Minecraft Launcher
 
-A native Minecraft Java Edition launcher for HarmonyOS NEXT devices, inspired by PojavLauncher's proven mobile design principles.
+A native Minecraft Java Edition launcher for HarmonyOS 5.0+ devices (API 17), inspired by PojavLauncher's proven mobile design principles.
 
 ## Features
 
 ### Core Functionality
-- ✅ Launch Minecraft Java Edition on HarmonyOS NEXT devices
+- ✅ Launch Minecraft Java Edition on HarmonyOS 5.0+ devices
 - ✅ Version management (download and install different MC versions)
 - ✅ Profile management (multiple game configurations)
 - ✅ Settings configuration (memory, display, player settings)
-- ✅ Modern mobile-first UI with HarmonyOS NEXT design guidelines
+- ✅ Modern mobile-first UI with HarmonyOS 5.0 design guidelines
 - ✅ Data persistence using HarmonyOS Preferences API
 - ✅ Comprehensive error handling and logging
 - ✅ Internationalization support (English/Chinese)
 
 ### Technical Architecture
-- **Frontend**: HarmonyOS NEXT ArkTS/ETS framework with Material Design
+- **Frontend**: HarmonyOS 5.0 ArkTS/ETS framework with Material Design
 - **Backend**: Java-based launcher logic with enhanced error handling
 - **Data Management**: HarmonyOS Preferences API for configuration persistence
 - **Permissions**: Proper permission handling with user-friendly explanations
@@ -111,8 +111,8 @@ This launcher follows PojavLauncher's proven mobile design principles while adhe
 
 ## Development Notes
 
-### HarmonyOS NEXT Integration
-- Uses HarmonyOS NEXT's native ArkTS/ETS framework
+### HarmonyOS 5.0 Integration
+- Uses HarmonyOS 5.0 native ArkTS/ETS framework
 - Implements proper permission handling with user explanations
 - Follows HarmonyOS design guidelines and accessibility standards
 - Uses HarmonyOS Preferences API for data persistence
@@ -144,13 +144,13 @@ This launcher follows PojavLauncher's proven mobile design principles while adhe
 ## System Requirements
 
 ### Development Environment
-- **HarmonyOS NEXT SDK**: 4.1.0(11) or later
-- **DevEco Studio**: Latest version with ArkTS support
+- **HarmonyOS SDK**: 5.0.1(120) API 17 or later
+- **DevEco Studio**: Latest version with ArkTS support for HarmonyOS 5.0
 - **Java Development Kit**: OpenJDK 17 or later
 - **Node.js**: 16.x or later (for build tools)
 
 ### Target Devices
-- **HarmonyOS Version**: NEXT 4.1.0 or later
+- **HarmonyOS Version**: 5.0 or later (API 17+)
 - **Device Types**: Phone, Tablet, 2-in-1 devices
 - **RAM**: Minimum 4GB, Recommended 6GB or more
 - **Storage**: 2GB free space for Minecraft installations
@@ -164,7 +164,7 @@ This launcher follows PojavLauncher's proven mobile design principles while adhe
 ## Build and Installation
 
 ### Prerequisites
-1. Install HarmonyOS NEXT SDK 4.1.0+ through DevEco Studio
+1. Install HarmonyOS 5.0 SDK 5.0.1(120) through DevEco Studio
 2. Configure signing certificates for your development environment
 3. Ensure target device has Developer Mode enabled
 

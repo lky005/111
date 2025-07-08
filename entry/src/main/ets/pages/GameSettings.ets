@@ -166,7 +166,7 @@ struct GameSettings {
             this.buildSettingsSection('System Information', () => {
               this.buildInfoSetting('Java Version', 'OpenJDK 17');
               this.buildInfoSetting('Launcher Version', '1.0.0');
-              this.buildInfoSetting('HarmonyOS Version', 'NEXT 4.1.0+');
+              this.buildInfoSetting('HarmonyOS Version', '5.0 API 17');
               this.buildInfoSetting('Device Type', this.getDeviceType());
             });
 
@@ -675,7 +675,7 @@ struct GameSettings {
           this.buildSettingsSection('Advanced Settings', () => {
             this.buildInfoSetting('Java Version', 'OpenJDK 17');
             this.buildInfoSetting('Launcher Version', '1.0.0');
-            this.buildInfoSetting('HarmonyOS Version', 'NEXT 4.1.0');
+            this.buildInfoSetting('HarmonyOS Version', '5.0 API 17');
           });
 
           // Action buttons

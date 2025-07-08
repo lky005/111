@@ -2,7 +2,7 @@
   "string": [
     {
       "name": "module_desc",
-      "value": "受PojavLauncher启发的鸿蒙Minecraft启动器"
+      "value": "基于PojavLauncher的鸿蒙5.0 Minecraft启动器 (API 17)"
     },
     {
       "name": "EntryAbility_desc",

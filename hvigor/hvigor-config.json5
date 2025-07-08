@@ -1,9 +1,9 @@
 {
   "modelVersion": "5.0.0",
-  "description": "HarmonyOS NEXT Minecraft Launcher build configuration",
+  "description": "HarmonyOS 5.0 Minecraft Launcher build configuration - API 17 (5.0.1.120)",
   "ohos": {
-    "compileSdkVersion": "4.1.0(11)",
-    "compatibleSdkVersion": "4.1.0(11)",
+    "compileSdkVersion": "5.0.1(120)",
+    "compatibleSdkVersion": "5.0.1(120)",
     "runtimeOS": "HarmonyOS",
     "supportedDeviceTypes": ["phone", "tablet", "2in1"]
   },
