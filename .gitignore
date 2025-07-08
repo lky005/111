@@ -1,0 +1,43 @@
+# HarmonyOS build artifacts
+build/
+.cxx/
+entry/build/
+entry/.cxx/
+oh_modules/
+node_modules/
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+.hvigor/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+*.log
+
+# Package files
+*.har
+*.hap
+
+# Local configuration
+local.properties
+signing-configs.json
+
+# Build outputs
+dist/
+*.tgz
+
+# Runtime files
+*.pid
+*.log.*

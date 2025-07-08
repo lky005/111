@@ -1,0 +1,16 @@
+{
+  "string": [
+    {
+      "name": "module_desc",
+      "value": "受PojavLauncher启发的鸿蒙Minecraft启动器"
+    },
+    {
+      "name": "EntryAbility_desc",
+      "value": "Minecraft启动器主入口"
+    },
+    {
+      "name": "EntryAbility_label",
+      "value": "MC启动器"
+    }
+  ]
+}
