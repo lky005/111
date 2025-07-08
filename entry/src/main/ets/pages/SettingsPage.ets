@@ -1,13 +1,14 @@
 import router from '@ohos.router';
 import hilog from '@ohos.hilog';
+import { AppConstants } from '../common/constants/AppConstants';
 
 @Entry
 @Component
 struct SettingsPage {
-  @State javaMemory: number = 2048; // MB
-  @State gameDirectory: string = '/storage/minecraft';
+  @State javaMemory: number = AppConstants.DEFAULT_JAVA_MEMORY; // MB
+  @State gameDirectory: string = AppConstants.DEFAULT_GAME_DIR;
   @State enableMods: boolean = true;
-  @State renderDistance: number = 8;
+  @State renderDistance: number = AppConstants.DEFAULT_RENDER_DISTANCE;
 
   build() {
     Column() {
@@ -44,8 +45,8 @@ struct SettingsPage {
               
               Slider({
                 value: this.javaMemory,
-                min: 512,
-                max: 8192,
+                min: AppConstants.MIN_JAVA_MEMORY,
+                max: AppConstants.MAX_JAVA_MEMORY,
                 step: 256
               })
                 .width(150)
@@ -85,8 +86,8 @@ struct SettingsPage {
               
               Slider({
                 value: this.renderDistance,
-                min: 2,
-                max: 32,
+                min: AppConstants.MIN_RENDER_DISTANCE,
+                max: AppConstants.MAX_RENDER_DISTANCE,
                 step: 1
               })
                 .width(150)
@@ -125,7 +126,7 @@ struct SettingsPage {
             .fontWeight(FontWeight.Bold)
             .fontColor('#007DFF')
           
-          Text('Version 1.0.0 (API Level 17)')
+          Text(`Version ${AppConstants.APP_VERSION} (API Level ${AppConstants.API_LEVEL})`)
             .fontSize(14)
             .fontColor('#666666')
           
@@ -176,9 +177,9 @@ struct SettingsPage {
 
   private resetSettings() {
     hilog.info(0x0000, 'PojavLauncher', 'Resetting settings to defaults...');
-    this.javaMemory = 2048;
-    this.gameDirectory = '/storage/minecraft';
+    this.javaMemory = AppConstants.DEFAULT_JAVA_MEMORY;
+    this.gameDirectory = AppConstants.DEFAULT_GAME_DIR;
     this.enableMods = true;
-    this.renderDistance = 8;
+    this.renderDistance = AppConstants.DEFAULT_RENDER_DISTANCE;
   }
 }

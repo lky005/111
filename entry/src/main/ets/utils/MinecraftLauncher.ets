@@ -1,6 +1,9 @@
 import hilog from '@ohos.hilog';
+import worker from '@ohos.worker';
 import { JavaRuntimeManager } from './JavaRuntimeManager';
 import { MinecraftVersionManager, MinecraftVersion } from './MinecraftVersionManager';
+import { FileSystemManager } from './FileSystemManager';
+import { AppConstants, LaunchEventType } from '../common/constants/AppConstants';
 
 /**
  * Minecraft Launcher Core
@@ -10,7 +13,10 @@ export class MinecraftLauncher {
   private static instance: MinecraftLauncher;
   private javaRuntime: JavaRuntimeManager;
   private versionManager: MinecraftVersionManager;
+  private fileSystem: FileSystemManager;
+  private minecraftWorker: worker.ThreadWorker | null = null;
   private isLaunching: boolean = false;
+  private launchCallback: ((event: LaunchEvent) => void) | null = null;
 
   public static getInstance(): MinecraftLauncher {
     if (!MinecraftLauncher.instance) {
@@ -22,6 +28,8 @@ export class MinecraftLauncher {
   constructor() {
     this.javaRuntime = JavaRuntimeManager.getInstance();
     this.versionManager = MinecraftVersionManager.getInstance();
+    this.fileSystem = FileSystemManager.getInstance();
+    this.initializeWorker();
   }
 
   /**
@@ -31,6 +39,12 @@ export class MinecraftLauncher {
     hilog.info(0x0000, 'MinecraftLauncher', 'Initializing Minecraft Launcher...');
 
     try {
+      // Initialize file system
+      const fsInitialized = await this.fileSystem.initialize();
+      if (!fsInitialized) {
+        throw new Error('Failed to initialize file system');
+      }
+
       // Initialize Java runtime
       const javaInitialized = await this.javaRuntime.initialize();
       if (!javaInitialized) {
@@ -72,14 +86,25 @@ export class MinecraftLauncher {
         throw new Error(`Version ${options.version} not found`);
       }
 
-      // Build launch command
-      const launchCommand = await this.buildLaunchCommand(targetVersion, options);
-      
-      // Execute launch command (simulated for HarmonyOS Next)
-      const result = await this.executeLaunchCommand(launchCommand);
-      
-      this.isLaunching = false;
-      return result;
+      // Check available storage space
+      const gameDir = options.gameDirectory || AppConstants.DEFAULT_GAME_DIR;
+      const availableSpace = await this.fileSystem.getAvailableSpace(gameDir);
+      if (availableSpace < 2 * 1024 * 1024 * 1024) { // 2GB minimum
+        throw new Error('Insufficient storage space');
+      }
+
+      // Use worker for launch process
+      if (this.minecraftWorker) {
+        this.minecraftWorker.postMessage({
+          type: 'LAUNCH_MINECRAFT',
+          payload: {
+            version: options.version,
+            options: options
+          }
+        });
+      }
+
+      return { success: true, message: 'Launch process started' };
     } catch (error) {
       this.isLaunching = false;
       hilog.error(0x0000, 'MinecraftLauncher', 'Launch failed: %{public}s', error.toString());
@@ -110,17 +135,84 @@ export class MinecraftLauncher {
     return this.isLaunching;
   }
 
+  /**
+   * Set launch event callback
+   */
+  public setLaunchCallback(callback: (event: LaunchEvent) => void): void {
+    this.launchCallback = callback;
+  }
+
+  /**
+   * Initialize worker for background tasks
+   */
+  private initializeWorker(): void {
+    try {
+      this.minecraftWorker = new worker.ThreadWorker('entry/ets/workers/MinecraftWorker.ets');
+      
+      this.minecraftWorker.onmessage = (e) => {
+        const data = e.data;
+        this.handleWorkerMessage(data);
+      };
+
+      this.minecraftWorker.onerror = (e) => {
+        hilog.error(0x0000, 'MinecraftLauncher', 'Worker error: %{public}s', e.message);
+      };
+
+      hilog.info(0x0000, 'MinecraftLauncher', 'Worker initialized successfully');
+    } catch (error) {
+      hilog.error(0x0000, 'MinecraftLauncher', 'Failed to initialize worker: %{public}s', error.toString());
+    }
+  }
+
+  /**
+   * Handle messages from worker
+   */
+  private handleWorkerMessage(data: any): void {
+    if (this.launchCallback) {
+      switch (data.type) {
+        case 'LAUNCH_PROGRESS':
+          this.launchCallback({
+            type: LaunchEventType.LOADING_ASSETS,
+            message: data.payload.message,
+            progress: data.payload.progress
+          });
+          break;
+        case 'LAUNCH_COMPLETE':
+          this.isLaunching = false;
+          this.launchCallback({
+            type: LaunchEventType.COMPLETE,
+            message: 'Minecraft launched successfully',
+            processId: data.payload.processId
+          });
+          break;
+        case 'DOWNLOAD_PROGRESS':
+          this.launchCallback({
+            type: LaunchEventType.DOWNLOADING,
+            message: `Downloading ${data.payload.version}...`,
+            progress: data.payload.progress
+          });
+          break;
+        case 'ERROR':
+          this.isLaunching = false;
+          this.launchCallback({
+            type: LaunchEventType.ERROR,
+            message: data.payload.message
+          });
+          break;
+      }
+    }
+  }
+
   private async buildLaunchCommand(version: MinecraftVersion, options: LaunchOptions): Promise<string[]> {
-    const javaPath = this.javaRuntime.getJavaPath();
-    const gameDir = options.gameDirectory || '/storage/emulated/0/minecraft';
+    const gameDir = options.gameDirectory || AppConstants.DEFAULT_GAME_DIR;
     
     const command = [
       javaPath,
-      `-Xmx${options.memoryMb || 2048}m`,
-      `-Xms${Math.min(options.memoryMb || 2048, 512)}m`,
+      `-Xmx${options.memoryMb || AppConstants.DEFAULT_JAVA_MEMORY}m`,
+      `-Xms${Math.min(options.memoryMb || AppConstants.DEFAULT_JAVA_MEMORY, 512)}m`,
       '-Djava.library.path=' + gameDir + '/natives',
-      '-Dminecraft.launcher.brand=PojavLauncher',
-      '-Dminecraft.launcher.version=HarmonyOS-1.0.0',
+      '-Dminecraft.launcher.brand=' + AppConstants.APP_NAME,
+      '-Dminecraft.launcher.version=' + AppConstants.APP_VERSION + '-' + AppConstants.APP_BUILD,
       '-cp', gameDir + '/libraries/*:' + gameDir + '/versions/' + version.id + '/' + version.id + '.jar',
       'net.minecraft.client.main.Main',
       '--username', options.username || 'Player',
@@ -151,6 +243,16 @@ export class MinecraftLauncher {
       }, 2000);
     });
   }
+}
+
+/**
+ * Launch event interface
+ */
+export interface LaunchEvent {
+  type: LaunchEventType;
+  message: string;
+  progress?: number;
+  processId?: number;
 }
 
 /**

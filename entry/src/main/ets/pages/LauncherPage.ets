@@ -1,6 +1,7 @@
 import router from '@ohos.router';
 import hilog from '@ohos.hilog';
-import process from '@ohos.process';
+import { MinecraftLauncher, LaunchEvent, LaunchOptions } from '../utils/MinecraftLauncher';
+import { LaunchEventType, AppConstants } from '../common/constants/AppConstants';
 
 @Entry
 @Component
@@ -8,9 +9,55 @@ struct LauncherPage {
   @State launchStatus: string = 'Initializing...';
   @State progressValue: number = 0;
   @State isLaunching: boolean = false;
+  @State gameOutput: string = 'Game Output:\n\n[INFO] PojavLauncher initialized\n[INFO] Checking for Java runtime\n[INFO] Loading game assets\n[INFO] Ready to launch';
+  private launcher: MinecraftLauncher = MinecraftLauncher.getInstance();
 
   aboutToAppear() {
     this.initializeMinecraft();
+    this.setupLaunchCallback();
+  }
+
+  private setupLaunchCallback() {
+    this.launcher.setLaunchCallback((event: LaunchEvent) => {
+      this.handleLaunchEvent(event);
+    });
+  }
+
+  private handleLaunchEvent(event: LaunchEvent) {
+    switch (event.type) {
+      case LaunchEventType.INITIALIZING:
+        this.launchStatus = 'Initializing game environment...';
+        this.progressValue = 10;
+        break;
+      case LaunchEventType.DOWNLOADING:
+        this.launchStatus = event.message;
+        this.progressValue = event.progress || 0;
+        break;
+      case LaunchEventType.LOADING_ASSETS:
+        this.launchStatus = 'Loading game assets...';
+        this.progressValue = 60;
+        break;
+      case LaunchEventType.STARTING_GAME:
+        this.launchStatus = 'Starting Minecraft...';
+        this.progressValue = 90;
+        break;
+      case LaunchEventType.COMPLETE:
+        this.launchStatus = 'Minecraft is running';
+        this.progressValue = 100;
+        this.isLaunching = false;
+        this.appendGameOutput('[INFO] Minecraft launched successfully!');
+        break;
+      case LaunchEventType.ERROR:
+        this.launchStatus = 'Launch failed: ' + event.message;
+        this.isLaunching = false;
+        this.progressValue = 0;
+        this.appendGameOutput('[ERROR] ' + event.message);
+        break;
+    }
+  }
+
+  private appendGameOutput(message: string) {
+    this.gameOutput += '\n' + message;
   }
 
   build() {
@@ -84,9 +131,9 @@ struct LauncherPage {
             })
         }
 
-        // Game output log (placeholder)
+        // Game output log
         ScrollArea() {
-          Text('Game Output:\n\n[INFO] PojavLauncher initialized\n[INFO] Checking for Java runtime\n[INFO] Loading game assets\n[INFO] Ready to launch')
+          Text(this.gameOutput)
             .fontSize(12)
             .fontFamily('monospace')
             .backgroundColor('#000000')
@@ -111,41 +158,63 @@ struct LauncherPage {
     .backgroundColor('#F1F3F5')
   }
 
-  private initializeMinecraft() {
+  private async initializeMinecraft() {
     hilog.info(0x0000, 'PojavLauncher', 'Initializing Minecraft environment...');
     this.launchStatus = 'Checking Java runtime...';
     
-    // Simulate initialization process
-    setTimeout(() => {
-      this.launchStatus = 'Loading game assets...';
-      setTimeout(() => {
+    try {
+      const initialized = await this.launcher.initialize();
+      if (initialized) {
         this.launchStatus = 'Ready to launch';
-      }, 1000);
-    }, 1000);
+        this.appendGameOutput('[INFO] Launcher initialized successfully');
+      } else {
+        this.launchStatus = 'Initialization failed';
+        this.appendGameOutput('[ERROR] Failed to initialize launcher');
+      }
+    } catch (error) {
+      this.launchStatus = 'Initialization error';
+      this.appendGameOutput('[ERROR] ' + error.toString());
+    }
   }
 
-  private startMinecraft() {
+  private async startMinecraft() {
     hilog.info(0x0000, 'PojavLauncher', 'Starting Minecraft...');
     this.isLaunching = true;
     this.launchStatus = 'Starting Minecraft Java Edition...';
     this.progressValue = 0;
+    this.appendGameOutput('[INFO] Starting launch process...');
 
-    // Simulate launch process
-    const interval = setInterval(() => {
-      this.progressValue += 10;
-      if (this.progressValue >= 100) {
-        clearInterval(interval);
-        this.launchStatus = 'Minecraft is running';
+    const launchOptions: LaunchOptions = {
+      version: '1.20.4',
+      username: 'Player',
+      memoryMb: AppConstants.DEFAULT_JAVA_MEMORY,
+      gameDirectory: AppConstants.DEFAULT_GAME_DIR
+    };
+
+    try {
+      const result = await this.launcher.launchMinecraft(launchOptions);
+      if (!result.success) {
+        this.launchStatus = 'Launch failed: ' + result.message;
         this.isLaunching = false;
-        this.progressValue = 0;
+        this.appendGameOutput('[ERROR] ' + result.message);
       }
-    }, 200);
+    } catch (error) {
+      this.launchStatus = 'Launch error: ' + error.toString();
+      this.isLaunching = false;
+      this.appendGameOutput('[ERROR] ' + error.toString());
+    }
   }
 
   private stopMinecraft() {
     hilog.info(0x0000, 'PojavLauncher', 'Stopping Minecraft...');
-    this.isLaunching = false;
-    this.launchStatus = 'Minecraft stopped';
-    this.progressValue = 0;
+    const stopped = this.launcher.stopMinecraft();
+    if (stopped) {
+      this.isLaunching = false;
+      this.launchStatus = 'Minecraft stopped';
+      this.progressValue = 0;
+      this.appendGameOutput('[INFO] Minecraft stopped by user');
+    } else {
+      this.appendGameOutput('[ERROR] Failed to stop Minecraft');
+    }
   }
 }
